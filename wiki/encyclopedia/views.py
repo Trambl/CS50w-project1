@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 import markdown2
 
 from . import util
 
 
-def index(request, titles=None, search=False):
+def index(request, query=None, titles=None, search=False):
     if titles is None:
         entries = util.list_entries()
     else:
@@ -13,7 +13,8 @@ def index(request, titles=None, search=False):
         
     return render(request, "encyclopedia/index.html", {
         "entries": entries,
-        "search": search
+        "search": search,
+        "query": query
     })
 
 def page(request, title):
@@ -34,9 +35,19 @@ def search(request):
         if direct_link:
             return page(request, titles)
         else: 
-            return index(request, titles, True)
+            return index(request, query, titles, True)
         
 def create(request):
-    return index(request)
+    if request.method == "POST":
+        title = request.POST.get("title", "")
+        content = request.POST.get("content", "")
+        if util.entry_existance(title):
+            return render(request, "encyclopedia/create.html", {
+                "entry_exist": True
+            })
+        util.save_entry(title, content)
+        return redirect("page", title=title)
+    else:
+        return render(request, "encyclopedia/create.html")
         
         

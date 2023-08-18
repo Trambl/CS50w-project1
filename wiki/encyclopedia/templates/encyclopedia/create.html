@@ -5,5 +5,23 @@
 {% endblock %}
 
 {% block body %}
+{% if entry_exist %}
+<div class="alert alert-warning" role="alert">
+    Entry with such title already exist!
+</div>
+{% endif %}
+<form method="post" action="{% url 'create' %}">
+    {% csrf_token %}
+    <div>
+        <label for="title">Page Title:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    
+    <label for="content">Enter the Markdown content for the page:</label>
+    <div>
+        <textarea id="content" name="content" required></textarea>
+    </div>
 
+    <button type="submit">Save Page</button>
+</form>
 {% endblock %}

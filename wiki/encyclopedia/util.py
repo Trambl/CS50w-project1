@@ -24,7 +24,16 @@ def save_entry(title, content):
         default_storage.delete(filename)
     default_storage.save(filename, ContentFile(content))
 
-
+def entry_existance(title):
+    """
+    Searches whether entity exist.
+    """
+    lowercase_list_entries = [entry.lower() for entry in list_entries()]
+    if title.lower() in lowercase_list_entries:
+        return True
+    else:
+        return False
+    
 def get_entry(title):
     """
     Retrieves an encyclopedia entry by its title. If no such
@@ -39,9 +48,8 @@ def get_entry(title):
 
 def search_entry(query):
     """
-    Searches through list of entries. 
-    If the query matches the name of an encyclopedia entry, the user should be redirected to that entrys page.
-    Clicking on any of the entry names on the search results page should take the user to that entrys page.
+    Retrieves a list of entries which match query. 
+    In case of a full match outputs only 1 result.
     """
     entries = list_entries()
     lowercase_list_entries = [entry.lower() for entry in entries]
