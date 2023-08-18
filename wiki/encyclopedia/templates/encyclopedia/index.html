@@ -1,16 +1,24 @@
 {% extends "encyclopedia/layout.html" %}
-
+{% load static %}
 {% block title %}
     Encyclopedia
 {% endblock %}
 
 {% block body %}
+    {% if not search %}
     <h1>All Pages</h1>
+    {% elif search %}
+    <h1>Search results:</h1>
+    {% endif %}
 
+    {% if not entries and search %}
+    <p>No entries found</p>
+    {% else %}
     <ul>
         {% for entry in entries %}
-            <li><a href="wiki/{{ entry }}">{{ entry }}</a></li>
+            <li><a href="{% url 'page' title=entry %}">{{ entry }}</a></li>
         {% endfor %}
     </ul>
+    {% endif %}
 
 {% endblock %}
