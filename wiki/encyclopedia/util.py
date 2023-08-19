@@ -1,4 +1,5 @@
 import re
+import random
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -65,4 +66,10 @@ def search_entry(query):
             search_results.append(entries[i])
         i+=1
     return search_results, False
+    
+def random_page_selector():
+    """
+    Return a random page
+    """
+    return random.choice(list_entries())
     

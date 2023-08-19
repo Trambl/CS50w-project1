@@ -61,3 +61,7 @@ def edit(request, title):
             "title": title,
             "content": entry_content
     })
+    
+def random(request):
+    title=util.random_page_selector()
+    return redirect("page", title=title)
