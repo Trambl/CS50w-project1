@@ -8,4 +8,9 @@
 <article>
     {{ entry|safe }}
 </article>
+<div>
+    <a href="{% url 'edit' title=title %}">
+        <button>Edit page</button>
+    </a>
+</div>
 {% endblock %}

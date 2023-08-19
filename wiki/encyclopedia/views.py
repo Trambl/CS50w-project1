@@ -33,7 +33,7 @@ def search(request):
         query = request.GET.get("q", "")
         titles, direct_link = util.search_entry(query)
         if direct_link:
-            return page(request, titles)
+            return redirect("page", title=titles)
         else: 
             return index(request, query, titles, True)
         
@@ -50,4 +50,14 @@ def create(request):
     else:
         return render(request, "encyclopedia/create.html")
         
-        
+def edit(request, title):
+    if request.method == "POST":
+        content=request.POST.get("content","")
+        util.save_entry(title, content)
+        return redirect("page", title=title)
+    else:
+        entry_content = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "content": entry_content
+    })
